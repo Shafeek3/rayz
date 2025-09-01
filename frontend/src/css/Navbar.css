@@ -1,0 +1,33 @@
+.navlogin{
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+}
+.navlogin:hover {
+    color: rgb(0, 0, 0);
+}
+
+.navcart{
+    display: flex !important;
+    align-items: center;
+    gap: 4px;
+}
+.navcart:hover {
+    color: rgb(0, 0, 0);
+}
+
+/* Navbar.css */
+a, button, [role="button"], .clickable {
+  cursor: pointer;
+}
+
+/* If a global reset changed anchors, force the pointer back */
+a[href] {
+  cursor: pointer;
+}
+
+/* Keep disabled buttons as default */
+button:disabled {
+  cursor: not-allowed;
+}
+

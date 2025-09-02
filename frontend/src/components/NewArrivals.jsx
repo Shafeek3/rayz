@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { AddToCart } from "./Addtocart";
 
 export default function NewArrivals() {
   const [data, setData] = useState([]);
@@ -17,21 +19,16 @@ export default function NewArrivals() {
             key={product._id || product.id}
             className="   shadow-sm hover:shadow-lg transition-shadow duration-300"
           >
-            <img
-              src={product.image}
-              alt={product.name}
-              className="h-80 w-full object-cover  group-hover:scale-105 transition-transform duration-300"
-            />
-            <h3 className="mt-4 text-base font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">{product.name}</h3>
+            <Link to={`/product/${product._id}`}>
+              <img
+                src={product.image}
+                alt={product.name}
+                className="h-80 w-full object-cover  group-hover:scale-105 transition-transform duration-300"
+              />
+              <h3 className="mt-4 text-base font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">{product.name}</h3>
+            </Link>
             <p className="mt-1 text-lg font-bold text-gray-800">${product.price}</p>
-            <div className="mt-4 mb-3 flex space-x-2 gap-2">
-                <button className="bg-yellow-700 text-white px-4 py-2 rounded-md hover:bg-yellow-900 transition ">
-                    Add to Cart
-                </button>
-                <button className="bg-yellow-700 text-white px-4 py-2 rounded-md hover:bg-yellow-900 transition ">
-                    Buy Now
-                </button>
-            </div>
+           <AddToCart product={product} />
           </div>
         ))}
       </div>

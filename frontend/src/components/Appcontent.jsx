@@ -11,11 +11,12 @@ import { Bangles } from '../pages/Bangles'
 import { Anklets } from '../pages/Anklets'
 import { Login } from '../pages/Login'
 import { Signup } from '../pages/Signup'
-import { Cart } from '../pages/Cart'
+import Cart  from '../pages/Cart'
 import SearchPage  from '../pages/SearchPage'
 import { Hero } from './Hero'
 import ProductDispaly from '../pages/ProductDisplay'
 import { Footer } from './Footer'
+import Checkout from '../pages/Checkout'
 
 function Appcontent() {
   const location = useLocation();
@@ -38,6 +39,7 @@ function Appcontent() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/checkout" element={<Checkout />} />
         <Route path="/product/:id" element={<ProductDispaly />} />
       </Routes>
       </div>

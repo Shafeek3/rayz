@@ -31,6 +31,7 @@ export default function SearchResults() {
               <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
               <h3 className="font-semibold">{item.name}</h3>
               <p>${item.price}</p>
+              
             </li>
           ))}
         </ul>

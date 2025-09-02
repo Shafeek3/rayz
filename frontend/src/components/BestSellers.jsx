@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { AddToCart } from "./Addtocart";
+import { Link } from "react-router-dom";
 
 export const BestSellers = () => {
   const { data = [], isLoading, isError, error } = useQuery({
@@ -48,11 +49,11 @@ export const BestSellers = () => {
         className="bg-white  shadow-md hover:shadow-xl transition-shadow duration-300  group cursor-pointer"
       >
         <div className="relative">
-          <img
+         <Link to={`/product/${product._id}`}><img
             src={product.image}
             alt={product.name}
             className="h-80 w-full object-cover  group-hover:scale-105 transition-transform duration-300"
-          />
+          /></Link> 
           <span className="absolute top-2 left-2 bg-yellow-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
             Best Seller
           </span>
@@ -62,7 +63,7 @@ export const BestSellers = () => {
         </h3>
         <p className="mt-1 text-lg font-bold text-gray-800">${product.price}</p>
         <div className="mt-2 mb-4">
-          <AddToCart />
+          <AddToCart product={product} />
         </div>
       </div>
     ))}

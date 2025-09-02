@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import { Link,useLocation,useNavigate } from 'react-router-dom'
 import { Search,User,ShoppingCart } from "lucide-react"
 import "../css/Navbar.css"
-
+import { useSelector } from 'react-redux';
 // import logo from "../../assets/images/logo.jpeg" // Add your logo
 
 export const Navbar = () => {
@@ -12,6 +12,7 @@ export const Navbar = () => {
     const location = useLocation();
     const isHome = location.pathname === "/";
 
+    const cart = useSelector(state => state.cart);
      useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50); // change background after 50px scroll
@@ -19,28 +20,8 @@ export const Navbar = () => {
      window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  //  useEffect(() => {
-  //   if (searchTerm.trim() === "") {
-  //     setSuggestions([]);
-  //     return;
-  //   }
-    
-  //   const timeout = setTimeout(async () => {
-  //     try {
-  //       const res = await fetch(`http://localhost:5000/api/search?q=${encodeURIComponent(query)}`);
-
-  //       const data = await res.json();
-  //       setSuggestions(data);
-  //     } catch (err) {
-  //       console.error("Suggestion fetch error:", err);
-  //     }
-  //   }, 300);
-
-    
-  //   return () => clearTimeout(timeout);
-  // }, [searchTerm]);
-useEffect(() => {
+  
+ useEffect(() => {
   if (searchTerm.trim() === "") {
     setSuggestions([]);
     return;
@@ -128,8 +109,20 @@ useEffect(() => {
           <li><Link to="/anklets" className="hover:underline">Anklets</Link></li>
           <li><Link to="/login" className="hover:underline navlogin"> <User className="w-5 h-5 " />
             <span>Login</span></Link></li> 
-          <li><Link to="/cart" className="hover:underline navcart"> <ShoppingCart className="w-5 h-5 " />
-            <span>Cart</span></Link></li>
+         <li>
+                <Link to="/cart" className="hover:underline navcart relative flex items-center">
+                  <div className="relative flex flex-col items-center">
+                    {/* Cart count badge */}
+                    {cart.length > 0 && (
+                      <span className="absolute -top-4 left-6 -translate-x-1/2 bg-red-500 text-white rounded-full px-2 py-0.5 text-xs">
+                        {cart.length}
+                      </span>
+                    )}
+                    <ShoppingCart className="w-5 h-5" />
+                  </div>
+                  <span className="ml-1">Cart</span>
+                </Link>
+            </li>
         </ul>
       </nav>
     </div>

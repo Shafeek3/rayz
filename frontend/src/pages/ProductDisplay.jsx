@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import {AddToCart} from "../components/Addtocart";
 
-export default function ProductPage() {
+export default function ProductDisplay() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -32,9 +33,7 @@ export default function ProductPage() {
           <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
           <p className="text-gray-700 mb-4">{product.description}</p>
           <p className="text-lg font-semibold mb-4">${product.price}</p>
-          <button className="bg-black text-white px-4 py-2 rounded-2xl hover:bg-gray-800">
-            Add to Cart
-          </button>
+          <AddToCart product={product} />
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AddToCart } from './Addtocart';
+import {Link} from 'react-router-dom';
 
 export const ProductList = ({ endpoint, heading, emptyText }) => {
   const [items, setItems] = useState([]);
@@ -70,18 +71,20 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
         <p>{emptyText || 'No products found.'}</p>
       ) : (
         <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  {items.map(item => (
-                    <li key={item._id} className="border p-2 rounded relative">
-                      {item.isBestSeller && (
+                  {items.map(product => (
+                    <li key={product._id} className="border p-2 rounded relative">
+                      {product.isBestSeller && (
                 <span className="absolute top-2 left-2 bg-yellow-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
                   Best Seller
                 </span>
               )}
-                      <img src={item.image} alt={item.name} className="w-full h-40 object-cover" />
-                      <h3 className="font-semibold">{item.name}</h3>
-                      <p>${item.price}</p>
+                     <Link to={`/product/${product._id}`}>
+                       <img src={product.image} alt={product.name} className="w-full h-40 object-cover" />
+                     </Link>
+                      <h3 className="font-semibold">{product.name}</h3>
+                      <p>${product.price}</p>
                       <div>
-                      <AddToCart />
+                      <AddToCart product={product} />
                       </div>
                     </li>
                   ))}

@@ -1,0 +1,25 @@
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch; /* Makes all li equal height */
+}
+.categories li {
+
+    flex: 1;
+    min-width: 150px; /* optional for responsive */
+    margin: 0 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+
+.categories li:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #cd8406;
+}

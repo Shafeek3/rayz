@@ -85,12 +85,13 @@ router.get('/category/:category', async (req, res) => {
   }
 });
 
-// All products (optionally with sorting/filtering)
 router.get('/', async (req, res) => {
   try {
-    const { sort, minPrice, maxPrice } = req.query;
+    const { sort, minPrice, maxPrice} = req.query;
     let sortOption = {};
+    
 
+    // Sorting logic
     switch (sort) {
       case 'priceAsc':
         sortOption = { price: 1 };
@@ -108,16 +109,19 @@ router.get('/', async (req, res) => {
         sortOption = {};
     }
 
-    let priceFilter = {};
-    if (minPrice) priceFilter.price = { ...priceFilter.price, $gte: Number(minPrice) };
-    if (maxPrice) priceFilter.price = { ...priceFilter.price, $lte: Number(maxPrice) };
+    // --- Combine price filter into filter object ---
+    if (minPrice !== '') filter.price = { ...filter.price, $gte: Number(minPrice) };
+    if (maxPrice !== '') filter.price = { ...filter.price, $lte: Number(maxPrice) };
+    // ----------------------------------------------
+ 
 
-    const products = await Product.find({ ...priceFilter }).sort(sortOption);
-
+    const products = await Product.find(filter).sort(sortOption);
     res.json(products);
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
 });
+
+
 
 module.exports = router;

@@ -17,6 +17,8 @@ import { Hero } from './Hero'
 import ProductDispaly from '../pages/ProductDisplay'
 import { Footer } from './Footer'
 import Checkout from '../pages/Checkout'
+import Profile from '../pages/Profile'
+import Orders from '../pages/Orders'
 
 function Appcontent() {
   const location = useLocation();
@@ -24,6 +26,7 @@ function Appcontent() {
   return (
     <>
     <div className="min-h-screen flex flex-col">
+     
       <Navbar/>
       <div className={`flex-1 ${isHome ? "" : "pt-20"}`}>
       <Routes>
@@ -40,8 +43,13 @@ function Appcontent() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="/product/:id" element={<ProductDispaly />} />
+
+       
+       <Route path="/product/:id" element={<ProductDispaly />} />
+      <Route path="/profile" element={<Profile />} />
+<Route path="/orders" element={<Orders />} />
       </Routes>
+
       </div>
       <Footer /> 
       </div>

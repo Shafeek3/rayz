@@ -6,6 +6,7 @@ import NewArrivals from "./NewArrivals";
 import {Footer} from "./Footer";
 import "../css/Hero.css";
 import { Herosection2 } from "./Herosection2";
+import { Categories } from "./Categories";
 export const Hero = () => {
   return (
     <>
@@ -27,6 +28,7 @@ export const Hero = () => {
          <Link to="/New"><button className="mt-8 px-6 py-3 bg-white text-black ">Shop Now</button></Link>
       </div>
     </section>
+    <Categories />
     <BestSellers />
     <Herosection2 />
     <NewArrivals />

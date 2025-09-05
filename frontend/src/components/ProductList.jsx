@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { AddToCart } from './Addtocart';
 import {Link} from 'react-router-dom';
+import { Star,StarHalf } from "lucide-react";
 
 export const ProductList = ({ endpoint, heading, emptyText }) => {
   const [items, setItems] = useState([]);
@@ -8,6 +9,7 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
   const [sort, setSort] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  
 
   const fetchProducts = () => {
     setLoading(true);
@@ -16,6 +18,7 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
     if (sort) params.append('sort', sort);
     if (minPrice) params.append('minPrice', minPrice);
     if (maxPrice) params.append('maxPrice', maxPrice);
+  
 
     fetch(`${endpoint}${params.toString() ? '?' + params.toString() : ''}`)
       .then(res => res.json())
@@ -29,7 +32,7 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
   useEffect(() => {
     fetchProducts();
     // eslint-disable-next-line
-  }, [endpoint, sort, minPrice, maxPrice]);
+  }, [endpoint, sort, minPrice, maxPrice]); // <-- added
 
   return (
     <div className="p-4">
@@ -38,7 +41,7 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
   <select
     onChange={(e) => setSort(e.target.value)}
     value={sort}
-    className="h-12 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
+    className="h-12 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
   >
     <option value="">Sort By</option>
     <option value="priceAsc">Price: Low to High</option>
@@ -53,7 +56,7 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
     placeholder="Min"
     value={minPrice}
     onChange={(e) => setMinPrice(e.target.value)}
-    className="h-12 w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
+    className="h-12 w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
   />
   <span>-</span>
   <input
@@ -62,8 +65,14 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
     placeholder="Max"
     value={maxPrice}
     onChange={(e) => setMaxPrice(e.target.value)}
-    className="h-12 w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm bg-white"
+    className="h-12 w-24 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 shadow-sm bg-white"
   />
+  
+
+
+</div>
+<div className='mb-4'>
+  <p>Showing {items.length} results</p>
 </div>
       {loading ? (
         <div>Loading...</div>
@@ -83,9 +92,19 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
                      </Link>
                       <h3 className="font-semibold">{product.name}</h3>
                       <p>${product.price}</p>
+                                 <p >4.5 
+            <Star className="inline-block w-4 h-4 text-yellow-500 " />
+            <Star className="inline-block w-4 h-4 text-yellow-500" />
+            <Star className="inline-block w-4 h-4 text-yellow-500" />
+            <Star className="inline-block w-4 h-4 text-yellow-500" />
+            <StarHalf className="inline-block w-4 h-4 text-yellow-500" />
+           
+            (120 reviews)
+          </p>
                       <div>
                       <AddToCart product={product} />
                       </div>
+            
                     </li>
                   ))}
                 </ul>

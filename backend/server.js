@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const productRoutes = require('./routes/Productroutes.js');
 const searchRoutes = require('./routes/searchRoutes.js')
 const singleproductRoutes = require('./routes/singleproductRoutes.js')
+const authRoutes = require('./routes/authRoutes');
 const connectDB = require('./config/db');
 dotenv.config();
 connectDB();
@@ -21,9 +22,9 @@ app.get('/', (req, res) => {
 
 app.use('/api/products', productRoutes);
 app.use('/api/products', singleproductRoutes);
-app.use('/api/search', searchRoutes)
+app.use('/api/search', searchRoutes);
+app.use('/api/auth', authRoutes);
 
-
-app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`);
-})
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});

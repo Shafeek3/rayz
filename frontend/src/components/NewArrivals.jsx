@@ -27,7 +27,7 @@ export default function NewArrivals() {
               />
               <h3 className="mt-4 text-base font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">{product.name}</h3>
             </Link>
-            <p className="mt-1 text-lg font-bold text-gray-800">${product.price}</p>
+            <p className="mt-1 text-lg font-bold text-gray-800">₹{product.price}</p>
            <AddToCart product={product} />
           </div>
         ))}

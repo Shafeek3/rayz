@@ -69,10 +69,10 @@ router.post('/profile', async (req, res) => {
     const contact = decoded.contact;
 
     const profileData = req.body; // Using data sent by frontend
-
+    const fullAddress = profileData.address; // Should be the full address string from frontend
     const user = await User.findOneAndUpdate(
       { contact },
-      { ...profileData, contact },
+      { ...profileData, contact, address: fullAddress }, // Explicitly set address
       { upsert: true, new: true }
     );
 
@@ -104,6 +104,56 @@ router.get('/profile', async (req, res) => {
     res.status(401).json({ success: false, message: 'Unauthorized' });
   }
 });
+
+// Place an order
+router.post('/order', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  const { items, total } = req.body;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const contact = decoded.contact;
+    const user = await User.findOne({ contact });
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    const address = user.address || "";
+     console.log("Order address:", address);
+    user.orders.push({ items, total, status: "Placed", address });
+    user.cart = []; // Clear cart after order
+    await user.save();
+    res.json({ success: true, orders: user.orders });
+  } catch (err) {
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+});
+
+// Get orders
+router.get('/orders', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const contact = decoded.contact;
+    const user = await User.findOne({ contact });
+    res.json({ success: true, orders: user.orders || [] });
+  } catch (err) {
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+});
+
+router.post('/clear-orders', async (req, res) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const contact = decoded.contact;
+    const user = await User.findOne({ contact });
+    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+    user.orders = [];
+    await user.save();
+    res.json({ success: true });
+  } catch (err) {
+    res.status(401).json({ success: false, message: 'Unauthorized' });
+  }
+});
+
 
 module.exports = router;
 

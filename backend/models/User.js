@@ -1,5 +1,13 @@
 const mongoose = require('mongoose');
 
+const orderSchema = new mongoose.Schema({
+  items: Array,
+  total: Number,
+  status: { type: String, default: "Placed" }, // Placed, Shipped, Delivered, Cancelled
+  date: { type: Date, default: Date.now },
+  address: String // <-- add this line
+});
+
 const userSchema = new mongoose.Schema({
   contact: { type: String, required: true, unique: true }, // email or phone
   name: String,
@@ -12,7 +20,7 @@ const userSchema = new mongoose.Schema({
   country: String,
   address: String,
   cart: { type: Array, default: [] },
-  orders: { type: Array, default: [] }
+   orders: { type: [orderSchema], default: [] }
 });
 
 module.exports = mongoose.model('User', userSchema);

@@ -42,7 +42,7 @@ export default function ProductDisplay() {
             (120 reviews)
           </p>
           <p className="text-gray-700 mb-4">{product.description}</p>
-          <p className="text-lg font-semibold mb-4">${product.price}</p>
+          <p className="text-lg font-semibold mb-4">₹{product.price}</p>
           <p>Select size</p>
           <div className="flex space-x-2 mb-4">
           <p className="border p-1 ">1</p>

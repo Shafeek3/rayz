@@ -91,7 +91,7 @@ export const ProductList = ({ endpoint, heading, emptyText }) => {
                        <img src={product.image} alt={product.name} className="w-full h-40 object-cover" />
                      </Link>
                       <h3 className="font-semibold">{product.name}</h3>
-                      <p>${product.price}</p>
+                      <p>₹{product.price}</p>
                                  <p >4.5 
             <Star className="inline-block w-4 h-4 text-yellow-500 " />
             <Star className="inline-block w-4 h-4 text-yellow-500" />

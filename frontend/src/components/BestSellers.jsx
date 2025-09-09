@@ -61,7 +61,7 @@ export const BestSellers = () => {
         <h3 className="mt-4 text-base font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
           {product.name}
         </h3>
-        <p className="mt-1 text-lg font-bold text-gray-800">${product.price}</p>
+        <p className="mt-1 text-lg font-bold text-gray-800">₹{product.price}</p>
         <div className="mt-2 mb-4">
           <AddToCart product={product} />
         </div>

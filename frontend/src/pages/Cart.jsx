@@ -33,7 +33,7 @@ export default function Cart() {
                   <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded mr-4" />
                   <div>
                     <span className="font-semibold">{item.name}</span>
-                    <div className="text-gray-600 text-sm">${item.price}</div>
+                    <div className="text-gray-600 text-sm">₹{item.price}</div>
                   </div>
                 </Link>
                
@@ -82,7 +82,7 @@ export default function Cart() {
             ))}
           </ul>
           <div className="flex justify-between items-center mt-6">
-            <span className="font-bold text-lg">Total: ${total.toFixed(2)}</span>
+            <span className="font-bold text-lg">Total: ₹{total.toFixed(2)}</span>
             <button
               className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-800 font-semibold"
               onClick={() => navigate('/checkout')} // <-- go to checkout

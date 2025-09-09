@@ -4,6 +4,7 @@ import 'react-phone-input-2/lib/style.css';
 import TextareaAutosize from 'react-textarea-autosize';
 import { useDispatch } from 'react-redux';
 import { setCart } from '../store/cartSlice';
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const [name, setName] = useState("");
@@ -17,24 +18,10 @@ export default function Profile() {
   const [address, setAddress] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const dispatch = useDispatch(); // <-- added dispatch
+  const navigate = useNavigate();
 
-
-  useEffect(() => {
-  const fetchProfile = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    const res = await fetch("http://localhost:5000/api/auth/profile", {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (data.success && data.user) {
-      dispatch(setCart(data.user.cart || [])); // <-- set cart in Redux
-      // ...set other fields if needed...
-    }
-  };
-  fetchProfile();
-}, []);
-  // Fetch profile info on mount
+  // Fetch profile info on mount and set cart
   useEffect(() => {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
@@ -44,6 +31,7 @@ export default function Profile() {
       });
       const data = await res.json();
       if (data.success && data.user) {
+        dispatch(setCart(data.user.cart || [])); // <-- set cart in Redux
         setName(data.user.name || "");
         setMobile(data.user.mobile || "");
         setPostcode(data.user.postcode || "");
@@ -56,7 +44,7 @@ export default function Profile() {
       }
     };
     fetchProfile();
-  }, []);
+  }, [dispatch]); // <-- added dispatch to deps
 
   // Auto-complete district, state, country from postcode
   const handlePostcodeBlur = async () => {
@@ -91,65 +79,57 @@ export default function Profile() {
   ].filter(Boolean).join('\n');
 
   // Save profile info to backend
- // --- Save profile info to backend ---
-const handleSave = async () => {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    alert("You must log in first.");
-    return;
-  }
-
-  const profileData = {
-    name,
-    mobile,
-    postcode,
-    place,
-    landmark,
-    district,
-    state,
-    country,
-    address: fullAddress // <-- FIXED: send computed address
-  };
-
-  try {
-    const res = await fetch("http://localhost:5000/api/auth/profile", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(profileData)
-    });
-
-    if (res.status === 401) { // <-- FIXED: handle unauthorized
-      alert("Session expired. Please log in again.");
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must log in first.");
       return;
     }
 
-    const data = await res.json();
-    if (data.success) {
-      alert("Profile saved!");
-    } else {
-      alert(data.message || "Failed to save profile.");
-    }
-  } catch (err) {
-    alert("Network error. Please try again.");
-  }
-};
+    // --- CHANGED: send full address string as 'address' ---
+    const profileData = {
+      name,
+      mobile,
+      postcode,
+      place,
+      landmark,
+      district,
+      state,
+      country,
+      address: fullAddress // <-- send computed address
+    };
 
-// Example: Save cart after adding/removing items
-const saveCartToDB = async (cart) => {
-  
-  const token = localStorage.getItem("token");
-  await fetch("http://localhost:5000/api/auth/profile", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify({ cart })
-  });
-};
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/profile", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(profileData)
+      });
+
+      if (res.status === 401) {
+        alert("Session expired. Please log in again.");
+        return;
+      }
+
+      const data = await res.json();
+      if (data.success) {
+        alert("Profile saved!");
+        setAddress(profileData.address); // <-- update address state after save
+        navigate("/"); // <-- go to home page
+        return;
+
+      } else {
+        alert(data.message || "Failed to save profile.");
+      }
+    }
+    catch (err) {
+   console.error("Error saving profile:", err);
+    }
+  };
 
   return (
     <div className="max-w-xl mx-auto p-6 bg-white rounded shadow">
@@ -256,6 +236,5 @@ const saveCartToDB = async (cart) => {
         Save
       </button>
     </div>
-    );
-}
-
+  );
+};

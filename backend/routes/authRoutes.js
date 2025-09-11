@@ -4,6 +4,7 @@ const nodemailer = require('nodemailer');
 const OtpModel = require('../models/otpauthmodel'); // <-- fixed import name
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const axios = require('axios'); 
 require('dotenv').config();
 
 
@@ -21,6 +22,25 @@ router.post('/request-otp', async (req, res) => {
   // Store OTP in DB
   await OtpModel.create({ contact, otp: otpValue }); // <-- use OtpModel
 
+  // Check if contact is mobile or email
+  if (/^\d{10}$/.test(contact)) {
+    // --- Send OTP via SMS (Fast2SMS example) ---
+    try {
+      await axios.post('https://www.fast2sms.com/dev/bulkV2', {
+        variables_values: otpValue,
+        route: 'otp',
+        numbers: contact
+      }, {
+        headers: {
+          authorization: process.env.FAST2SMS_API_KEY // Add your API key to .env
+        }
+      });
+      return res.json({ success: true, message: "OTP sent to mobile" });
+    } catch (err) {
+      console.error('SMS error:', err.response?.data || err);
+      return res.json({ success: false, message: 'Failed to send OTP to mobile' });
+    }
+  } else {
   // --- Send OTP via email ---
   const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -44,6 +64,7 @@ router.post('/request-otp', async (req, res) => {
     console.error('Nodemailer error:', err);
     res.json({ success: false, message: 'Failed to send OTP' });
   }
+  }
 });
 
 // --- Verify OTP ---
@@ -52,7 +73,20 @@ router.post('/verify-otp', async (req, res) => {
   const record = await OtpModel.findOne({ contact, otp }); // <-- check DB
   if (record) {
     await OtpModel.deleteMany({ contact }); // Remove all OTPs for this contact
-    const token = jwt.sign({ contact }, JWT_SECRET, { expiresIn: '7d' });
+   
+    // Create or find user
+    let user = await User.findOne({ contact });
+    if (!user) {
+      user = await User.create({ contact, name:contact});
+    }
+   
+    // Include _id and name in JWT payload
+    const token = jwt.sign(
+      { _id: user._id, name: user.name, contact: user.contact },
+      JWT_SECRET,
+      { expiresIn: '30d' }
+    );
+
     res.json({ success: true, token });
   } else {
     res.json({ success: false, message: 'Invalid OTP' });

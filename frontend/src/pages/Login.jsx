@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { setCart } from "../store/cartSlice";
 
 
+
 export const Login = () => {
   const [step, setStep] = useState(1); // 1: enter email/phone, 2: enter OTP
   const [contact, setContact] = useState("");
@@ -45,6 +46,7 @@ export const Login = () => {
       });
   };
 
+  
   // Step 2: Verify OTP
   const handleVerifyOtp = (e) => {
     e.preventDefault();
@@ -65,7 +67,8 @@ export const Login = () => {
         if (data.success) {
           setInfo("Login successful!");
           localStorage.setItem("token", data.token);
-          localStorage.setItem("profileName", contact);
+          localStorage.setItem("profileName", contact.slice(0, 7));
+      
           // window.location.reload();
             const res = await fetch("http://localhost:5000/api/auth/profile", {
             headers: { Authorization: `Bearer ${data.token}` }

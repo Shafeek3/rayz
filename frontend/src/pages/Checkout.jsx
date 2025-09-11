@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { clearCart, updateQuantity } from "../store/cartSlice";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -19,7 +19,24 @@ export default function Checkout() {
   const [cardNumber, setCardNumber] = useState("");
   const [upiId, setUpiId] = useState("");
 
-   const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID; // <-- Add here
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const res = await fetch("http://localhost:5000/api/auth/profile", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (data.success && data.user) {
+        setName(data.user.name || "");
+        setPhone(data.user.mobile || "");
+        setAddress(data.user.address || "");
+      }
+    };
+    fetchProfile();
+  }, []);
+
+  const razorpayKey = import.meta.env.VITE_RAZORPAY_KEY_ID; // <-- Add here
   console.log("Razorpay Key:", razorpayKey); // <-- Add here
   // Buy Now support
   const buyNowProduct = location.state?.buyNowProduct;
@@ -41,14 +58,14 @@ export default function Checkout() {
       alert("Please fill in all address fields.");
       return;
     }
-    if (paymentMethod === "Card" && !cardNumber) {
-      alert("Please enter your card number.");
-      return;
-    }
-    if (paymentMethod === "UPI" && !upiId) {
-      alert("Please enter your UPI ID.");
-      return;
-    }
+    // if (paymentMethod === "Card" && !cardNumber) {
+    //   alert("Please enter your card number.");
+    //   return;
+    // }
+    // if (paymentMethod === "UPI" && !upiId) {
+    //   alert("Please enter your UPI ID.");
+    //   return;
+    // }
 
     // Create Razorpay order on backend
     const res = await fetch("http://localhost:5000/api/razorpay/create-order", {
@@ -58,8 +75,8 @@ export default function Checkout() {
     });
 
      const options = {
-      key: razorpayKey, // <-- Use here
-      // ...other Razorpay options...
+      key: razorpayKey,
+      
     };
     const order = await res.json();
     if (!order.id) {
@@ -177,7 +194,7 @@ export default function Checkout() {
       </div>
       {/* Payment Section */}
       <div className="w-full md:w-1/2 gap-4 mt-6">
-        <div className="mb-6">
+        {/* <div className="mb-6">
           <h3 className="font-semibold mb-2">Payment Method</h3>
           <select
             value={paymentMethod}
@@ -205,7 +222,7 @@ export default function Checkout() {
               onChange={e => setUpiId(e.target.value)}
             />
           )}
-        </div>
+        </div> */}
         {/* Place Order Button */}
         <button
           className="bg-green-600 text-white px-6 py-3 rounded font-semibold w-full text-lg hover:bg-green-700"

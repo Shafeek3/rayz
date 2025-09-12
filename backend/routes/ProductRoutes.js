@@ -121,7 +121,7 @@ router.get('/', async (req, res) => {
 router.post("/:id/rate", authMiddleware, async (req, res) => {
   const { rating, comment } = req.body;
   const userId = req.user._id;
-  console.log("Rating request:", { userId, rating, comment });
+ 
 
   if (!rating || rating < 1 || rating > 5) {
     return res.status(400).json({ success: false, message: "Rating must be 1-5" });

@@ -20,7 +20,8 @@ const userSchema = new mongoose.Schema({
   country: String,
   address: String,
   cart: { type: Array, default: [] },
-   orders: { type: [orderSchema], default: [] }
+   orders: { type: [orderSchema], default: [] },
+   isAdmin: { type: Boolean, default: false }
 });
 
 module.exports = mongoose.model('User', userSchema);

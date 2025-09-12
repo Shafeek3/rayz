@@ -4,6 +4,8 @@ const nodemailer = require('nodemailer');
 const OtpModel = require('../models/otpauthmodel'); // <-- fixed import name
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const authMiddleware = require('../middleware/auth');
+const adminOnly = require('../middleware/admin');
 const axios = require('axios'); 
 require('dotenv').config();
 
@@ -82,7 +84,7 @@ router.post('/verify-otp', async (req, res) => {
    
     // Include _id and name in JWT payload
     const token = jwt.sign(
-      { _id: user._id, name: user.name, contact: user.contact },
+      { _id: user._id, name: user.name, contact: user.contact,isAdmin: user.isAdmin },
       JWT_SECRET,
       { expiresIn: '30d' }
     );
@@ -188,6 +190,42 @@ router.post('/clear-orders', async (req, res) => {
   }
 });
 
+
+
+// Get all orders (admin)
+router.get('/admin/orders', authMiddleware, adminOnly, async (req, res) => {
+  const users = await User.find({}, "name contact orders");
+  const allOrders = users.flatMap(user =>
+    (user.orders || []).map(order => ({
+      user: user.name,
+      contact: user.contact,
+      ...order
+    }))
+  );
+  res.json({ success: true, orders: allOrders });
+});
+
+// Delete an order (admin)
+router.delete('/admin/order/:userContact/:orderId', authMiddleware, adminOnly, async (req, res) => {
+  const { userContact, orderId } = req.params;
+  const user = await User.findOne({ contact: userContact });
+  if (!user) return res.status(404).json({ success: false, message: "User not found" });
+  user.orders = user.orders.filter(order => order._id.toString() !== orderId);
+  await user.save();
+  res.json({ success: true });
+});
+
+// Get all users (admin)
+router.get('/admin/users', authMiddleware, adminOnly, async (req, res) => {
+  const users = await User.find({}, "name contact isAdmin address");
+  res.json({ success: true, users });
+});
+
+// Delete a user (admin)
+router.delete('/admin/user/:id', authMiddleware, adminOnly, async (req, res) => {
+  await User.findByIdAndDelete(req.params.id);
+  res.json({ success: true });
+});
 
 module.exports = router;
 

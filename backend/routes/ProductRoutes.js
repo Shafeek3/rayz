@@ -2,7 +2,7 @@ const express = require('express');
 const Product = require('../models/Product');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
-
+const adminOnly = require('../middleware/admin');
 // Best sellers
 router.get('/best-sellers', async (req, res) => {
   try {
@@ -165,6 +165,44 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: 'Server error' });
   }
+});
+
+
+
+// Add a product
+router.post('/admin/add', authMiddleware, adminOnly, async (req, res) => {
+  const { name, price, image, category, description } = req.body;
+  const product = await Product.create({ name, price, image, category, description });
+  res.json({ success: true, product });
+});
+
+// Edit a product
+router.put('/admin/edit/:id', authMiddleware, adminOnly, async (req, res) => {
+  try {
+    const { name, price, image, category, description, isBestSeller, isNewArrival } = req.body;
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { name, price, image, category, description, isBestSeller, isNewArrival },
+      { new: true }
+    );
+    if (!product) return res.status(404).json({ success: false, message: "Product not found" });
+    res.json({ success: true, product });
+  } catch (err) {
+    console.error("Edit product error:", err);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+});
+
+// Delete a product
+router.delete('/admin/delete/:id', authMiddleware, adminOnly, async (req, res) => {
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({ success: true });
+});
+
+// Clear all products
+router.delete('/admin/clear', authMiddleware, adminOnly, async (req, res) => {
+  await Product.deleteMany({});
+  res.json({ success: true });
 });
 
 module.exports = router;

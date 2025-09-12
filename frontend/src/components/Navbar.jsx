@@ -68,6 +68,17 @@ export const Navbar = () => {
     { name: "Bangles", path: "/bangles" },
     { name: "Anklets", path: "/anklets" },
   ];
+  
+  const token = localStorage.getItem("token");
+  let isAdmin = false;
+  if (token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    isAdmin = payload.isAdmin;
+  } catch {}
+  }
+
+
 
   return (
     <div
@@ -173,6 +184,10 @@ export const Navbar = () => {
           </div>
           <span className="ml-1">Cart</span>
         </Link>
+
+        {isAdmin && (
+        <Link to="/admin" className="font-bold text-red-600 ml-2">Admin</Link>
+      )}
       </div>
 
       {/* Desktop Navigation */}
@@ -243,6 +258,11 @@ export const Navbar = () => {
               <span className="ml-1">Cart</span>
             </Link>
           </li>
+          {isAdmin && (
+          <li>
+            <Link to="/admin" className="font-bold text-red-600">Admin</Link>
+          </li>
+        )}
         </ul>
       </nav>
 

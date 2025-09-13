@@ -296,17 +296,31 @@ export default function AdminDashboard() {
         </div>
       </div>
       {/* User Management */}
-      <div className="mb-8">
-        <h3 className="font-semibold mb-2">Users</h3>
-        <ul>
-          {users.map(u => (
-            <li key={u._id} className="mb-2">
-              <span>{u.name} ({u.contact}) {u.isAdmin && <b>[Admin]</b>}</span>
-              <button onClick={() => handleDeleteUser(u._id)} className="ml-2 bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <div className="mb-8">
+  <h3 className="font-semibold mb-2">Users</h3>
+  <ul>
+    {users.map(u => (
+      <li key={u._id} className="mb-2">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <div className="col-span-1">
+            <span className="font-medium">
+              {u.name} ({u.contact}) {u.isAdmin && <b className="text-red-600">[Admin]</b>}
+            </span>
+          </div>
+          <div className="flex items-center">
+            <button
+              onClick={() => handleDeleteUser(u._id)}
+              className="bg-red-500 text-white px-3 py-1 rounded"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
       {/* Order Management */}
       <div>
         <h3 className="font-semibold mb-2">Orders</h3>
@@ -323,223 +337,3 @@ export default function AdminDashboard() {
   );
 }
 
-// import { useState, useEffect } from "react";
-
-// export default function AdminDashboard() {
-//   const [products, setProducts] = useState([]);
-//   const [users, setUsers] = useState([]);
-//   const [orders, setOrders] = useState([]);
-//   const [form, setForm] = useState({ name: "", price: "", image: "", category: "", description: "" });
-//   const [editId, setEditId] = useState(null);
-//   const [filterCategory, setFilterCategory] = useState("");
-//   const [filterType, setFilterType] = useState("");
-
-//   const token = localStorage.getItem("token");
-
-//   // Fetch products, users, orders
-//   useEffect(() => {
-//     fetch("http://localhost:5000/api/products").then(res => res.json()).then(setProducts);
-//     fetch("http://localhost:5000/api/auth/admin/users", { headers: { Authorization: `Bearer ${token}` } })
-//       .then(res => res.json()).then(data => setUsers(data.users));
-//     fetch("http://localhost:5000/api/auth/admin/orders", { headers: { Authorization: `Bearer ${token}` } })
-//       .then(res => res.json()).then(data => setOrders(data.orders));
-//   }, []);
-
-//     const filteredProducts = products.filter(p => {
-//     let match = true;
-//     if (filterCategory && p.category !== filterCategory) match = false;
-//     if (filterType === "new" && !p.isNewArrival) match = false;
-//     if (filterType === "best" && !p.isBestSeller) match = false;
-//     return match;
-//   });
-
-//   // Add product
-//   const handleAddProduct = async () => {
-//     const res = await fetch("http://localhost:5000/api/products/admin/add", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-//       body: JSON.stringify(form),
-//     });
-//     const data = await res.json();
-//     if (data.success) {
-//       setProducts([...products, data.product]);
-//       setForm({ name: "", price: "", image: "", category: "", description: "" });
-//     }
-//   };
-
-//   // Edit product
-//   const handleEditProduct = async () => {
-//     const res = await fetch(`http://localhost:5000/api/products/admin/edit/${editId}`, {
-//       method: "PUT",
-//       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-//       body: JSON.stringify(form),
-//     });
-//     const data = await res.json();
-//     if (data.success) {
-//       setProducts(products.map(p => p._id === editId ? data.product : p));
-//       setEditId(null);
-//       setForm({ name: "", price: "", image: "", category: "", description: "" });
-//     }
-//   };
-
-//   // Delete product
-//   const handleDeleteProduct = async (id) => {
-//     await fetch(`http://localhost:5000/api/products/admin/delete/${id}`, {
-//       method: "DELETE",
-//       headers: { Authorization: `Bearer ${token}` },
-//     });
-//     setProducts(products.filter(p => p._id !== id));
-//   };
-
-//   // Clear all products
-//   const handleClearProducts = async () => {
-//     await fetch("http://localhost:5000/api/products/admin/clear", {
-//       method: "DELETE",
-//       headers: { Authorization: `Bearer ${token}` },
-//     });
-//     setProducts([]);
-//   };
-
-//   // Delete user
-//   const handleDeleteUser = async (id) => {
-//     await fetch(`http://localhost:5000/api/auth/admin/user/${id}`, {
-//       method: "DELETE",
-//       headers: { Authorization: `Bearer ${token}` },
-//     });
-//     setUsers(users.filter(u => u._id !== id));
-//   };
-
-//   // Delete order
-//   const handleDeleteOrder = async (userContact, orderId) => {
-//     await fetch(`http://localhost:5000/api/auth/admin/order/${userContact}/${orderId}`, {
-//       method: "DELETE",
-//       headers: { Authorization: `Bearer ${token}` },
-//     });
-//     setOrders(orders.filter(o => o.contact !== userContact || o._id !== orderId));
-//   };
-
-//   return (
-//     <div className="p-6">
-//       <h2 className="text-xl font-bold mb-4">Admin Dashboard</h2>
-//       <div className="mb-4 flex space-x-4 items-center">
-//         <label>
-//           Category:
-//           <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)} className="ml-2 border rounded px-2 py-1">
-//             <option value="">All</option>
-//             <option value="rings">Rings</option>
-//             <option value="earrings">Earrings</option>
-//             <option value="bracelets">Bracelets</option>
-//             <option value="necklace">Necklace</option>
-//             <option value="bangles">Bangles</option>
-//             <option value="anklets">Anklets</option>
-//           </select>
-//         </label>
-//           <label>
-//           Type:
-//           <select value={filterType} onChange={e => setFilterType(e.target.value)} className="ml-2 border rounded px-2 py-1">
-//             <option value="">All</option>
-//             <option value="new">New Arrivals</option>
-//             <option value="best">Best Sellers</option>
-//           </select>
-//         </label>
-//         <button onClick={() => { setFilterCategory(""); setFilterType(""); }} className="ml-2 px-2 py-1 border rounded">Clear Filters</button>
-//       </div>
-
-//       {/* Product Management */}
-//       <div className="mb-8">
-//         <h3 className="font-semibold mb-2">Products</h3>
-//         <button onClick={handleClearProducts} className="bg-red-500 text-white px-2 py-1 rounded mb-2">Clear All Products</button>
-//         <div className="mb-4">
-//           <input placeholder="Name" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-//           <input placeholder="Price" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
-//           <input placeholder="Image URL" value={form.image} onChange={e => setForm({ ...form, image: e.target.value })} />
-//           <input placeholder="Category" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} />
-//           <input placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
-//           {editId ? (
-//             <button onClick={handleEditProduct} className="bg-blue-500 text-white px-2 py-1 rounded ml-2">Update</button>
-//           ) : (
-//             <button onClick={handleAddProduct} className="bg-green-500 text-white px-2 py-1 rounded ml-2">Add</button>
-//           )}
-//         </div>
-//         {/* <ul className="overflow-y-auto border p-2">
-//           {products.map(p => (
-//             <li  key={p._id} className="mb-2 ">
-//               <span>{p.name} - ₹{p.price} - {p.category}</span>
-//               <button onClick={() => {
-//                 setEditId(p._id);
-//                 setForm({ name: p.name, price: p.price, image: p.image, category: p.category, description: p.description });
-//               }} className="ml-2 bg-yellow-500 text-white px-2 py-1 rounded">Edit</button>
-//               <button onClick={() => handleDeleteProduct(p._id)} className="ml-2 bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-//             </li>
-//           ))}
-//         </ul> */}
-//         <ul className="overflow-y-auto border p-2">
-//   {products.map(p => (
-//     <li key={p._id} className="mb-2">
-//       <div className="grid grid-cols-4 items-center gap-4">
-//         <span className="col-span-1 font-medium">{p.name}</span>
-//         <span className="col-span-1 text-gray-700">₹{p.price}</span>
-//         <span className="col-span-1 text-gray-500">{p.category}</span>
-//         <div className="col-span-1 flex space-x-2">
-//           <button
-//             onClick={() => {
-//               setEditId(p._id);
-//               setForm({ name: p.name, price: p.price, image: p.image, category: p.category, description: p.description });
-//             }}
-//             className="bg-yellow-500 text-white px-2 py-1 rounded"
-//           >
-//             Edit
-//           </button>
-//           <button
-//             onClick={() => handleDeleteProduct(p._id)}
-//             className="bg-red-500 text-white px-2 py-1 rounded"
-//           >
-//             Delete
-//           </button>
-//         </div>
-//       </div>
-//     </li>
-//   ))}
-// </ul>
-
-//       </div>
-//       {/* User Management */}
-//       <div className="mb-8">
-//   <h3 className="font-semibold mb-2">Users</h3>
-//   <ul>
-//     {users.map(u => (
-//       <li key={u._id} className="mb-2">
-//         <div className="grid grid-cols-4 items-center gap-4">
-//           <span className="col-span-1 font-medium">
-//             {u.name} ({u.contact}) {u.isAdmin && <b className="text-red-600">[Admin]</b>}
-//           </span>
-//           <span className="col-span-1 text-gray-500">{u.email}</span> {/* Optional: Add more info */}
-//           <div className="col-span-1 flex justify-end">
-//             <button
-//               onClick={() => handleDeleteUser(u._id)}
-//               className="bg-red-500 text-white px-2 py-1 rounded"
-//             >
-//               Delete
-//             </button>
-//           </div>
-//         </div>
-//       </li>
-//     ))}
-//   </ul>
-// </div>
-
-//       {/* Order Management */}
-//       <div>
-//         <h3 className="font-semibold mb-2">Orders</h3>
-//         <ul>
-//           {orders.map(o => (
-//             <li key={o._id} className="mb-2">
-//               <span>{o.user} ({o.contact}) - ₹{o.total} - {o.status}</span>
-//               <button onClick={() => handleDeleteOrder(o.contact, o._id)} className="ml-2 bg-red-500 text-white px-2 py-1 rounded">Delete</button>
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//     </div>
-//   );
-// }

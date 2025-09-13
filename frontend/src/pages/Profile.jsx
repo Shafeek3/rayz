@@ -155,71 +155,84 @@ export default function Profile() {
           placeholder="Enter your mobile number"
         />
       </div>
+      
       <h2 className="text-2xl font-bold mb-4">Address</h2>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Postcode</label>
-        <input
-          type="text"
-          className="border rounded px-3 py-2 w-full"
-          value={postcode}
-          onChange={e => setPostcode(e.target.value)}
-          onBlur={handlePostcodeBlur}
-          placeholder="Enter your postcode"
-        />
-        {loading && <span className="text-sm text-gray-500">Checking postcode...</span>}
-        {error && <span className="text-sm text-red-500">{error}</span>}
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Place Name <span className="text-gray-400">(optional)</span></label>
-        <input
-          type="text"
-          className="border rounded px-3 py-2 w-full"
-          value={place}
-          onChange={e => setPlace(e.target.value)}
-          placeholder="Place name"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Landmark <span className="text-gray-400">(optional)</span></label>
-        <input
-          type="text"
-          className="border rounded px-3 py-2 w-full"
-          value={landmark}
-          onChange={e => setLandmark(e.target.value)}
-          placeholder="Landmark"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">District</label>
-        <input
-          type="text"
-          className="border rounded px-3 py-2 w-full"
-          value={district}
-          onChange={e => setDistrict(e.target.value)}
-          placeholder="District"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">State</label>
-        <input
-          type="text"
-          className="border rounded px-3 py-2 w-full"
-          value={state}
-          onChange={e => setState(e.target.value)}
-          placeholder="State"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block font-medium mb-1">Country</label>
-        <input
-          type="text"
-          className="border rounded px-3 py-2 w-full"
-          value={country}
-          onChange={e => setCountry(e.target.value)}
-          placeholder="Country"
-        />
-      </div>
-      <div className="mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+  <div>
+    <label className="block font-medium mb-1">Postcode</label>
+    <input
+      type="text"
+      className="border rounded px-3 py-2 w-full"
+      value={postcode}
+      onChange={e => setPostcode(e.target.value)}
+      onBlur={handlePostcodeBlur}
+      placeholder="Enter your postcode"
+    />
+    {loading && <span className="text-sm text-gray-500">Checking postcode...</span>}
+    {error && <span className="text-sm text-red-500">{error}</span>}
+  </div>
+
+  <div>
+    <label className="block font-medium mb-1">
+      Place Name 
+    </label>
+    <input
+      type="text"
+      className="border rounded px-3 py-2 w-full"
+      value={place}
+      onChange={e => setPlace(e.target.value)}
+      placeholder="Place Name"
+    />
+  </div>
+
+  <div>
+    <label className="block font-medium mb-1">
+      Landmark 
+    </label>
+    <input
+      type="text"
+      className="border rounded px-3 py-2 w-full"
+      value={landmark}
+      onChange={e => setLandmark(e.target.value)}
+      placeholder="optional"
+    />
+  </div>
+
+  <div>
+    <label className="block font-medium mb-1">District</label>
+    <input
+      type="text"
+      className="border rounded px-3 py-2 w-full"
+      value={district}
+      onChange={e => setDistrict(e.target.value)}
+      placeholder="District"
+    />
+  </div>
+
+  <div>
+    <label className="block font-medium mb-1">State</label>
+    <input
+      type="text"
+      className="border rounded px-3 py-2 w-full"
+      value={state}
+      onChange={e => setState(e.target.value)}
+      placeholder="State"
+    />
+  </div>
+
+  <div>
+    <label className="block font-medium mb-1">Country</label>
+    <input
+      type="text"
+      className="border rounded px-3 py-2 w-full"
+      value={country}
+      onChange={e => setCountry(e.target.value)}
+      placeholder="Country"
+    />
+  </div>
+</div>
+
+      <div className="mt-4 mb-6 font-medium">
         <label className="block font-medium mb-1">Full Address</label>
         <TextareaAutosize
           className="border rounded px-3 py-2 w-full resize-y"
@@ -235,6 +248,7 @@ export default function Profile() {
       >
         Save
       </button>
+      
     </div>
   );
 };

@@ -19,7 +19,7 @@ useEffect(() => {
       hydrated.current = true;
       return;
     }
-    const res = await fetch("http://localhost:5000/api/auth/profile", {
+    const res = await fetch("https://rayz-2.onrender.com/api/auth/profile", {
       headers: { Authorization: `Bearer ${token}` }
     });
     const data = await res.json();
@@ -36,7 +36,7 @@ useEffect(() => {
      if (!hydrated.current) return; // <-- only save after hydration
     const token = localStorage.getItem("token");
     if (!token) return;
-    await fetch("http://localhost:5000/api/auth/profile", {
+    await fetch("https://rayz-2.onrender.com/api/auth/profile", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

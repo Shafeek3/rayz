@@ -8,7 +8,7 @@ const Orders = () => {
     const fetchOrders = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
-      const res = await fetch("http://localhost:5000/api/auth/orders", {
+      const res = await fetch("https://rayz-2.onrender.com/api/auth/orders", {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -22,7 +22,7 @@ const Orders = () => {
   const handleClearOrders = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
-    const res = await fetch("http://localhost:5000/api/auth/clear-orders", {
+    const res = await fetch("https://rayz-2.onrender.com/api/auth/clear-orders", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` }
     });

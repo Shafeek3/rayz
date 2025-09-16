@@ -20,7 +20,7 @@ export default function ProductDisplay() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`https://rayz-2.onrender.com/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);
@@ -49,7 +49,7 @@ export default function ProductDisplay() {
     setSubmitting(true);
 
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}/rate`, {
+      const res = await fetch(`https://rayz-2.onrender.com/api/products/${id}/rate`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

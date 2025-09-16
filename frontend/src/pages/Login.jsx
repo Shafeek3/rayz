@@ -25,7 +25,7 @@ export const Login = () => {
     setError("");
     setInfo("Sending OTP...");
     // Make API call to request OTP
-    fetch("http://localhost:5000/api/auth/request-otp", {
+    fetch("https://rayz-2.onrender.com/api/auth/request-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ contact }),
@@ -57,7 +57,7 @@ export const Login = () => {
     setError("");
     setInfo("Verifying OTP...");
     // Make API call to verify OTP
-    fetch("http://localhost:5000/api/auth/verify-otp", {
+    fetch("https://rayz-2.onrender.com/api/auth/verify-otp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ contact, otp }),
@@ -70,7 +70,7 @@ export const Login = () => {
           localStorage.setItem("profileName", contact.slice(0, 7));
       
           // window.location.reload();
-            const res = await fetch("http://localhost:5000/api/auth/profile", {
+            const res = await fetch("https://rayz-2.onrender.com/api/auth/profile", {
             headers: { Authorization: `Bearer ${data.token}` }
           });
           const profileData = await res.json();

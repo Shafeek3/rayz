@@ -7,7 +7,8 @@ export default function NewArrivals() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/products/new-arrivals").then((res) => setData(res.data));
+    axios.get("https://rayz-2.onrender.com/api/products/new-arrivals").then((res) => setData(res.data));
+    // axios.get("http://localhost:5000/api/products/new-arrivals").then((res) => setData(res.data));
   }, []);
 
   return (

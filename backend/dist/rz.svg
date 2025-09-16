@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60">
+  <text
+    x="50%"
+    y="50%"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-size="80"
+    font-family="Montserrat, Arial, Helvetica, sans-serif"
+    fill="#000000ff"
+    font-weight="bold"
+    letter-spacing="4"
+    style="text-shadow: 2px 2px 6px #aaa;"
+  >
+    R
+  </text>
+</svg>

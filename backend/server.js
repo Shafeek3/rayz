@@ -8,6 +8,7 @@ const singleproductRoutes = require('./routes/singleproductRoutes.js')
 const authRoutes = require('./routes/authRoutes');
 const paymentRoutes = require('./routes/paymentRoutes.js');
 const razorpayRoutes = require('./routes/razorpayRoutes.js');
+
 const connectDB = require('./config/db');
 dotenv.config();
 connectDB();

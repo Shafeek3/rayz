@@ -8,6 +8,7 @@ const singleproductRoutes = require('./routes/singleproductRoutes.js')
 const authRoutes = require('./routes/authRoutes');
 const paymentRoutes = require('./routes/paymentRoutes.js');
 const razorpayRoutes = require('./routes/razorpayRoutes.js');
+const path = require('path');
 
 const connectDB = require('./config/db');
 dotenv.config();
@@ -29,6 +30,12 @@ app.use('/api/search', searchRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/razorpay', razorpayRoutes);
+
+// Serve frontend (React build)
+app.use(express.static(path.join(__dirname, 'dist')));
+app.get(/^\/(?!api\/).*/, (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

@@ -23,7 +23,7 @@ export default function Checkout() {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
-      const res = await fetch("https://rayz-2.onrender.com/api/auth/profile", {
+      const res = await fetch("/api/auth/profile", {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -68,7 +68,7 @@ export default function Checkout() {
     // }
 
     // Create Razorpay order on backend
-    const res = await fetch("https://rayz-2.onrender.com/api/razorpay/create-order", {
+    const res = await fetch("/api/razorpay/create-order", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount: total, currency: "INR" })
@@ -86,7 +86,7 @@ export default function Checkout() {
 
     // Load Razorpay script
     const script = document.createElement("script");
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.async = true;
     document.body.appendChild(script);
 
@@ -102,7 +102,7 @@ export default function Checkout() {
         handler: async function (response) {
           // Place order after successful payment
           const token = localStorage.getItem("token");
-          const orderRes = await fetch("https://rayz-2.onrender.com/api/auth/order", {
+          const orderRes = await fetch("/api/auth/order", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

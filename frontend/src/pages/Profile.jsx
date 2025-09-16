@@ -26,7 +26,7 @@ export default function Profile() {
     const fetchProfile = async () => {
       const token = localStorage.getItem("token");
       if (!token) return;
-      const res = await fetch("https://rayz-2.onrender.com/api/auth/profile", {
+      const res = await fetch("/api/auth/profile", {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
@@ -101,7 +101,7 @@ export default function Profile() {
     };
 
     try {
-      const res = await fetch("https://rayz-2.onrender.com/api/auth/profile", {
+      const res = await fetch("/api/auth/profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

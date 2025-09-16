@@ -7,7 +7,7 @@ export const BestSellers = () => {
   const { data = [], isLoading, isError, error } = useQuery({
     queryKey: ["best-sellers"],
     queryFn: async () => {
-      const res = await axios.get("https://rayz-2.onrender.com/api/products/best-sellers");
+      const res = await axios.get(`/api/products/best-sellers`);
 
       // If API response is not an array, default to empty array
       return Array.isArray(res.data) ? res.data : [];

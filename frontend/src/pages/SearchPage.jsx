@@ -10,7 +10,7 @@ export default function SearchResults() {
 
     (async () => {
       try {
-        const res = await fetch(`https://rayz-2.onrender.com/api/search?q=${encodeURIComponent(query)}`);
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
         const data = await res.json();
         setResults(data);
       } catch (err) {

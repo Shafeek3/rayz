@@ -20,7 +20,7 @@ export default function ProductDisplay() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch(`https://rayz-2.onrender.com/api/products/${id}`)
+    fetch(`/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setProduct(data);

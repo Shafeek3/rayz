@@ -39,7 +39,7 @@ export const Navbar = () => {
     const timeout = setTimeout(async () => {
       try {
         const res = await fetch(
-          `https://rayz-2.onrender.com/api/search/suggestions?q=${encodeURIComponent(searchTerm)}`
+          `/api/search/suggestions?q=${encodeURIComponent(searchTerm)}`
         );
         const data = await res.json();
         setSuggestions(data);

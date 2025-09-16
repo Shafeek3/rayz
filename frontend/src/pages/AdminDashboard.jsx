@@ -17,11 +17,11 @@ export default function AdminDashboard() {
 
   // Fetch products, users, orders
   useEffect(() => {
-    fetch("https://rayz-2.onrender.com/api/products/new-arrivals").then((res) => setData(res.data));
-    fetch("https://rayz-2.onrender.com/api/products").then(res => res.json()).then(setProducts);
-    fetch("https://rayz-2.onrender.com/api/auth/admin/users", { headers: { Authorization: `Bearer ${token}` } })
+    fetch("/products/new-arrivals").then((res) => setData(res.data));
+    fetch("/products").then(res => res.json()).then(setProducts);
+    fetch("/auth/admin/users", { headers: { Authorization: `Bearer ${token}` } })
       .then(res => res.json()).then(data => setUsers(data.users));
-    fetch("https://rayz-2.onrender.com/api/auth/admin/orders", { headers: { Authorization: `Bearer ${token}` } })
+    fetch("/auth/admin/orders", { headers: { Authorization: `Bearer ${token}` } })
       .then(res => res.json()).then(data => setOrders(data.orders));
   }, []);
 
@@ -41,7 +41,7 @@ export default function AdminDashboard() {
 
   // Add product
   const handleAddProduct = async () => {
-    const res = await fetch("https://rayz-2.onrender.com/api/products/admin/add", {
+    const res = await fetch("/products/admin/add", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
@@ -55,7 +55,7 @@ export default function AdminDashboard() {
 
   // Edit product
   const handleEditProduct = async () => {
-    const res = await fetch(`https://rayz-2.onrender.com/api/products/admin/edit/${editId}`, {
+    const res = await fetch(`/products/admin/edit/${editId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
@@ -78,7 +78,7 @@ export default function AdminDashboard() {
 
   // Delete product
   const handleDeleteProduct = async (id) => {
-    await fetch(`https://rayz-2.onrender.com/api/products/admin/delete/${id}`, {
+    await fetch(`/products/admin/delete/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -89,7 +89,7 @@ export default function AdminDashboard() {
   // Bulk delete
   const handleBulkDelete = async () => {
     for (const id of selectedProducts) {
-      await fetch(`https://rayz-2.onrender.com/api/products/admin/delete/${id}`, {
+      await fetch(`/products/admin/delete/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -103,7 +103,7 @@ export default function AdminDashboard() {
     for (const id of selectedProducts) {
       const product = products.find(p => p._id === id);
       if (product) {
-        await fetch(`https://rayz-2.onrender.com/api/products/admin/edit/${id}`, {
+        await fetch(`/products/admin/edit/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ ...product, [field]: value }),
@@ -111,13 +111,13 @@ export default function AdminDashboard() {
       }
     }
     // Refetch products
-    fetch("https://rayz-2.onrender.com/api/products").then(res => res.json()).then(setProducts);
+    fetch("/products").then(res => res.json()).then(setProducts);
     setSelectedProducts([]);
   };
 
   // Clear all products
   const handleClearProducts = async () => {
-    await fetch("https://rayz-2.onrender.com/api/products/admin/clear", {
+    await fetch("/products/admin/clear", {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -127,7 +127,7 @@ export default function AdminDashboard() {
 
   // Delete user
   const handleDeleteUser = async (id) => {
-    await fetch(`https://rayz-2.onrender.com/api/auth/admin/user/${id}`, {
+    await fetch(`/auth/admin/user/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -136,7 +136,7 @@ export default function AdminDashboard() {
 
   // Delete order
   const handleDeleteOrder = async (userContact, orderId) => {
-    await fetch(`https://rayz-2.onrender.com/api/auth/admin/order/${userContact}/${orderId}`, {
+    await fetch(`/auth/admin/order/${userContact}/${orderId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

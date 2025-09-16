@@ -20,9 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
 app.use('/api/products', productRoutes);
 app.use('/api/products', singleproductRoutes);

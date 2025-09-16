@@ -2,7 +2,7 @@ import { ProductList } from '../components/ProductList';
 
 export const Rings = () => (
   <ProductList
-    endpoint="/api/products/category/rings"
+    endpoint="https://rayz-2.onrender.com/api/products/category/rings"
     heading="Rings"
    
 

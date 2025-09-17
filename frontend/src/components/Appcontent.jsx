@@ -27,7 +27,7 @@ function Appcontent() {
   return (
     <>
     <div className="min-h-screen flex flex-col">
-     <div className="w-full sm:max-w-7xl mx-auto px-4 sm:px-2 text-sm sm:text-base md:text-lg">
+     <div className="w-full px-4 sm:px-2 text-sm sm:text-base md:text-lg">
 
 
       <Navbar/>

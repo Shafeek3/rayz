@@ -27,7 +27,8 @@ function Appcontent() {
   return (
     <>
     <div className="min-h-screen flex flex-col">
-     <div className="max-w-7xl mx-auto px-4 sm:px-2 text-sm sm:text-base md:text-lg">
+     <div className="w-full sm:max-w-7xl mx-auto px-4 sm:px-2 text-sm sm:text-base md:text-lg">
+
 
       <Navbar/>
       <div className={`flex-1 ${isHome ? "" : "pt-20"}`}>

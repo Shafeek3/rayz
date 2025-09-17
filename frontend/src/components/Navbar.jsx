@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, User, ShoppingCart, Menu } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,6 +16,24 @@ export const Navbar = () => {
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
+  const profileMenuRef = useRef();
+
+    useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target)
+      ) {
+        setShowProfileMenu(false);
+      }
+    }
+    if (showProfileMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showProfileMenu]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -141,7 +159,7 @@ export const Navbar = () => {
             <span>Login</span>
           </Link>
         ) : (
-          <div className="relative">
+          <div className="relative" ref={profileMenuRef}>
             <span
               className="cursor-pointer font-semibold"
               onClick={() => setShowProfileMenu(!showProfileMenu)}

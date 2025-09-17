@@ -27,14 +27,16 @@ export const AddToCart = ({ product }) => {
       <div className="mt-2">
         {isAdded ? (
           <button
-            className="bg-green-700 text-white px-4 py-2 rounded-md transition"
+            className="bg-green-700 text-white px-4 py-2 rounded-md transition
+             text-base sm:text-xs sm:px-2 sm:py-1"
             onClick={handleRemoveFromCart}
           >
             Remove from Cart
           </button>
         ) : (
           <button
-            className="bg-yellow-700 text-white px-4 py-2 rounded-md transition"
+            className="bg-yellow-700 text-white px-4 py-2 rounded-md transition
+             text-base sm:text-xs sm:px-2 sm:py-1"
             onClick={handleAddToCart}
           >
             Add to Cart
@@ -42,8 +44,9 @@ export const AddToCart = ({ product }) => {
         )}
       </div>
       <div className="mt-2">
-       
-          <button className="bg-yellow-700 text-white px-4 py-2 rounded-md hover:bg-yellow-900 transition"
+
+          <button className="bg-yellow-700 text-white px-4 py-2 rounded-md hover:bg-yellow-900 transition
+             text-base sm:text-xs sm:px-2 sm:py-1"
             onClick={handleBuyNow}>
             Buy Now
           </button>

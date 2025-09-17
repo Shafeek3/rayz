@@ -30,6 +30,7 @@ function Appcontent() {
      
       <Navbar/>
       <div className={`flex-1 ${isHome ? "" : "pt-20"}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-2 text-base sm:text-sm">
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/New" element={<New />} />
@@ -44,14 +45,12 @@ function Appcontent() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/checkout" element={<Checkout />} />
-
-       
         <Route path="/product/:id" element={<ProductDispaly />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
-
+        </div>
       </div>
       <Footer /> 
       </div>

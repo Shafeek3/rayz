@@ -241,13 +241,22 @@ export const Navbar = () => {
                   <div className="absolute right-0 mt-2 w-48 bg-white text-black border rounded shadow-lg z-50">
                     <button
                       className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                      onClick={() => navigate("/profile")}
+                      
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowProfileMenu(false);
+                        navigate("/profile");
+                      }}
                     >
                       Address
                     </button>
                     <button
                       className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                      onClick={() => navigate("/orders")}
+                     onClick={(e) => {
+                        e.stopPropagation();
+                        setShowProfileMenu(false);
+                        navigate("/orders");
+                      }}
                     >
                       Orders
                     </button>

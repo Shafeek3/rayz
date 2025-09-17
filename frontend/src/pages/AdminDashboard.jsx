@@ -17,11 +17,11 @@ export default function AdminDashboard() {
 const API_URL = import.meta.env.VITE_API_URL || "";
   // Fetch products, users, orders
   useEffect(() => {
-    fetch(`${API_URL}/products/new-arrivals`).then((res) => setData(res.data));
-    fetch(`${API_URL}/products`).then(res => res.json()).then(setProducts);
-    fetch(`${API_URL}/auth/admin/users`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/api/products/new-arrivals`).then((res) => setData(res.data));
+    fetch(`${API_URL}/api/products`).then(res => res.json()).then(setProducts);
+    fetch(`${API_URL}/api/auth/admin/users`, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => res.json()).then(data => setUsers(data.users));
-    fetch(`${API_URL}/auth/admin/orders`, { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_URL}/api/auth/admin/orders`, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => res.json()).then(data => setOrders(data.orders));
   }, []);
 
@@ -41,7 +41,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 
   // Add product
   const handleAddProduct = async () => {
-    const res = await fetch(`${API_URL}/products/admin/add`, {
+    const res = await fetch(`${API_URL}/api/products/admin/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
@@ -55,7 +55,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 
   // Edit product
   const handleEditProduct = async () => {
-    const res = await fetch(`${API_URL}/products/admin/edit/${editId}`, {
+    const res = await fetch(`${API_URL}/api/products/admin/edit/${editId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
@@ -78,7 +78,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 
   // Delete product
   const handleDeleteProduct = async (id) => {
-    await fetch(`${API_URL}/products/admin/delete/${id}`, {
+    await fetch(`${API_URL}/api/products/admin/delete/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -89,7 +89,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
   // Bulk delete
   const handleBulkDelete = async () => {
     for (const id of selectedProducts) {
-      await fetch(`${API_URL}/products/admin/delete/${id}`, {
+      await fetch(`${API_URL}/api/products/admin/delete/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -103,7 +103,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
     for (const id of selectedProducts) {
       const product = products.find(p => p._id === id);
       if (product) {
-        await fetch(`${API_URL}/products/admin/edit/${id}`, {
+        await fetch(`${API_URL}/api/products/admin/edit/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ ...product, [field]: value }),
@@ -111,13 +111,13 @@ const API_URL = import.meta.env.VITE_API_URL || "";
       }
     }
     // Refetch products
-    fetch(`${API_URL}/products`).then(res => res.json()).then(setProducts);
+    fetch(`${API_URL}/api/products`).then(res => res.json()).then(setProducts);
     setSelectedProducts([]);
   };
 
   // Clear all products
   const handleClearProducts = async () => {
-    await fetch(`${API_URL}/products/admin/clear`, {
+    await fetch(`${API_URL}/api/products/admin/clear`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -127,7 +127,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 
   // Delete user
   const handleDeleteUser = async (id) => {
-    await fetch(`${API_URL}/auth/admin/user/${id}`, {
+    await fetch(`${API_URL}/api/auth/admin/user/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -136,7 +136,7 @@ const API_URL = import.meta.env.VITE_API_URL || "";
 
   // Delete order
   const handleDeleteOrder = async (userContact, orderId) => {
-    await fetch(`${API_URL}/auth/admin/order/${userContact}/${orderId}`, {
+    await fetch(`${API_URL}/api/auth/admin/order/${userContact}/${orderId}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

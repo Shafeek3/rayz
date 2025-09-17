@@ -17,7 +17,6 @@ export default function AdminDashboard() {
 const API_URL = import.meta.env.VITE_API_URL || "";
   // Fetch products, users, orders
   useEffect(() => {
-    fetch(`${API_URL}/api/products/new-arrivals`).then((res) => setData(res.data));
     fetch(`${API_URL}/api/products`).then(res => res.json()).then(setProducts);
     fetch(`${API_URL}/api/auth/admin/users`, { headers: { Authorization: `Bearer ${token}` } })
       .then(res => res.json()).then(data => setUsers(data.users));

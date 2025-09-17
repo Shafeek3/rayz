@@ -27,10 +27,10 @@ function Appcontent() {
   return (
     <>
     <div className="min-h-screen flex flex-col">
-     
+     <div className="max-w-7xl mx-auto px-4 sm:px-2 text-base sm:text-sm">
       <Navbar/>
       <div className={`flex-1 ${isHome ? "" : "pt-20"}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-2 text-base sm:text-sm">
+        
       <Routes>
         <Route path="/" element={<Hero />} />
         <Route path="/New" element={<New />} />
@@ -50,9 +50,10 @@ function Appcontent() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
-        </div>
+        
       </div>
       <Footer /> 
+      </div>
       </div>
     </>
   )

@@ -27,16 +27,14 @@ export const AddToCart = ({ product }) => {
       <div className="mt-2">
         {isAdded ? (
           <button
-            className="bg-green-700 text-white px-4 py-2 rounded-md transition
-             text-base sm:text-xs sm:px-2 sm:py-1"
+            className="bg-green-700 text-white px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm md:text-base rounded-md hover:bg-green-900 transition"
             onClick={handleRemoveFromCart}
           >
             Remove from Cart
           </button>
         ) : (
           <button
-            className="bg-yellow-700 text-white px-4 py-2 rounded-md transition
-             text-base sm:text-xs sm:px-2 sm:py-1"
+            className="bg-yellow-700 text-white px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm md:text-base rounded-md hover:bg-yellow-900 transition"
             onClick={handleAddToCart}
           >
             Add to Cart
@@ -45,8 +43,7 @@ export const AddToCart = ({ product }) => {
       </div>
       <div className="mt-2">
 
-          <button className="bg-yellow-700 text-white px-4 py-2 rounded-md hover:bg-yellow-900 transition
-             text-base sm:text-xs sm:px-2 sm:py-1"
+          <button className="bg-yellow-700 text-white px-2 py-1 text-xs sm:px-4 sm:py-2 sm:text-sm md:text-base rounded-md hover:bg-yellow-900 transition"
             onClick={handleBuyNow}>
             Buy Now
           </button>

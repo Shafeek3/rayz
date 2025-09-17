@@ -10,7 +10,7 @@ import { Categories } from "./Categories";
 export const Hero = () => {
   return (
     <>
-  <section className="relative w-full h-[80vh] heroimage">
+  <section className="relative w-full h-[70vh] sm:h-[80vh] heroimage">
       {/* Background Image */}
       <img
         src={Heroimage}
@@ -23,9 +23,13 @@ export const Hero = () => {
 
       {/* Content on top */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
-        <h1 className="text-4xl md:text-6xl font-bold">Joy of luxury</h1>
-        <p className="mt-4 text-lg md:text-xl">Explore our exclusive collections</p>
-         <Link to="/New"><button className="mt-8 px-6 py-3 bg-white text-black ">Shop Now</button></Link>
+        <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold">Joy of luxury</h1>
+        <p className="mt-2 text-sm sm:mt-4 sm:text-lg md:text-xl">Explore our exclusive collections</p>
+           <Link to="/New">
+            <button className="mt-6 sm:mt-8 px-3 py-1.5 text-xs sm:px-6 sm:py-3 sm:text-base bg-white text-black rounded-lg">
+              Shop Now
+            </button>
+          </Link>
       </div>
     </section>
     <Categories />

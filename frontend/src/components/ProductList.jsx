@@ -102,22 +102,22 @@ return (
               ).toFixed(1)
             : "0.0";
           return (
-            <li key={product._id} className="border p-2 rounded relative">
+            <li key={product._id} className="border p-2 rounded relative text-base sm:text-xs">
               {product.isBestSeller && (
                 <span className="absolute top-2 left-2 bg-yellow-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow">
                   Best Seller
                 </span>
               )}
               <Link to={`/product/${product._id}`}>
-                <img src={product.image} alt={product.name} className="w-full h-40 object-cover" />
+                <img src={product.image} alt={product.name} className="w-full h-40 sm:h-24 object-cover" />
               </Link>
-              <h3 className="font-semibold">{product.name}</h3>
-              <p>₹{product.price}</p>
-              <p>
+              <h3 className="font-semibold sm:text-xs">{product.name}</h3>
+              <p className='sm:text-xs'>₹{product.price}</p>
+              <p className='sm:text-xs'>
                 {avgRating} {renderStars(avgRating)} ({reviewCount} reviews)
               </p>
               <div>
-                <AddToCart product={product} />
+                <AddToCart product={product}  className="sm:text-xs sm:px-2 sm:py-1" />
               </div>
             </li>
           );

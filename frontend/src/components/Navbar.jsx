@@ -12,6 +12,8 @@ export const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const profileName = localStorage.getItem("profileName") || "";
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
   const location = useLocation();
   const navigate = useNavigate();
   const cart = useSelector((state) => state.cart);
@@ -96,7 +98,16 @@ export const Navbar = () => {
   } catch {}
   }
 
+useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
+  const handleNavigate = (path) => {
+    navigate(path);
+    setShowProfileMenu(false); // close menu after navigation
+  };
 
   return (
     <div
@@ -105,11 +116,11 @@ export const Navbar = () => {
     >
       {/* Logo */}
       <Link to="/" className="flex items-center space-x-2">
-        <h1 className="text-2xl md:text-4xl font-bold tracking-widest">Rayz</h1>
+        <h1 className="text-2xl md:text-4xl sm:text-2xl font-bold tracking-widest">Rayz</h1>
       </Link>
 
       {/* Search Box */}
-      <div className="relative w-40 md:w-64 mx-2">
+      <div className="relative w-40 md:w-64 sm:w-48 mx-2">
         <input
           type="text"
           value={searchTerm}
@@ -159,30 +170,37 @@ export const Navbar = () => {
             <span>Login</span>
           </Link>
         ) : (
-          <div className="relative" ref={profileMenuRef}>
+          <div className="relative" 
+           onMouseEnter={() => !isMobile && setShowProfileMenu(true)}
+           onMouseLeave={() => !isMobile && setShowProfileMenu(false)}
+          >
             <span
               className="cursor-pointer font-semibold"
-              onClick={() => setShowProfileMenu(!showProfileMenu)}
+              onClick={() => isMobile && setShowProfileMenu(!showProfileMenu)}
             >
-              My Profile
+              Profile
             </span>
             {showProfileMenu && (
               <div className="absolute right-0 mt-2 w-40 bg-white text-black border rounded shadow-lg z-50">
                 <button
                   className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => navigate("/profile")}
+                  onClick={() => handleNavigate("/profile")}
                 >
                   Address
                 </button>
                 <button
                   className="block w-full text-left px-4 py-2 hover:bg-gray-100"
-                  onClick={() => navigate("/orders")}
+                  onClick={() => handleNavigate("/orders")}
                 >
                   Orders
                 </button>
                 <button
                   className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-                  onClick={handleLogout}
+                 onClick={() => {
+              // logout logic
+              setShowProfileMenu(false);
+              handleLogout();
+            }}
                 >
                   Logout
                 </button>

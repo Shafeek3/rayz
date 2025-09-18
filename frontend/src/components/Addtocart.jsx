@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart,clearCart} from '../store/cartSlice';
 import { useNavigate } from 'react-router-dom';
 
-export const AddToCart = ({ product }) => {
+export const AddToCart = ({ product, className =""}) => {
   const dispatch = useDispatch();
   const cart = useSelector(state => state.cart);
   const isAdded = cart.some(item => item._id === product._id);
